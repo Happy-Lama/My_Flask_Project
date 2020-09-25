@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CHAT BOT AI</title>
+	<style type="text/css">
+		body{
+			display: grid;
+			place-items: center;
+		}
+		#chat{
+			/*position: relative;*/
+			display: flex;
+			flex-direction: column;
+			/*background-color: grey;*/
+		}
+		/*#post{*/
+			/*position: fixed;*/
+			/*left: 1;*/
+		/*}*/
+	</style>
+</head>
+<body>
+WELCOME TO THE CHATBOT AI<br>
+<div id="chat" style="width: 500px;padding: 0px 150px 0px 150px;">
+<input type="text" name="user_input" id="post"><input type="submit" name="submitbutton" onclick="post()" id="post2">
+</div>
+<script>
+function post() {
+var x = document.getElementById("post")
+var text1 = document.getElementById('post').value
+var obj = {"text": text1}
+var div = document.getElementById("chat");
+var post = document.getElementById("post");
+var p = document.createElement("div");
+var div_ = document.createElement("div");
+// divchat = {"display": "grid"; "grid-template-columns": "repeat(12,1fr)"; "padding": "5px";};
+// div_.class = "divchat";
+div_.style.display = "grid";
+div_.style.gridTemplateColumns = "repeat(12,1fr)";
+div_.style.padding = "10px 0px 10px 0px";
+p.innerHTML = text1;
+// p.class = "divchat_div_user";
+p.style.padding = "5px";
+p.style.backgroundColor = "white";
+p.style.borderLeft = "5px solid blue";
+p.style.borderRight = p.style.borderTop = p.style.borderBottom = '1px solid lightgrey';
+p.style.gridColumn = "1/ span 5";
+x.value = "";
+div_.appendChild(p)
+div.appendChild(div_);
+
+if (text1 != ""){
+    // POST
+	fetch('/', {
+		
+	    // Specify the method
+	    method: 'POST',
+
+	    // A JSON payload
+	    body: JSON.stringify(obj)
+	}).then(function (response) { 
+	// At this point, Flask has printed our JSON
+	    return response.text();
+	}).then(function (response) {
+	    console.log('POST response: ');
+
+	    // Should be 'OK' if everything was successful
+	    console.log(response);
+		var response = JSON.parse(response);
+	    var p = document.createElement("div");
+	    var div_ = document.createElement("div");
+	    // div_.class = "divchat";
+	    div_.style.display = "grid";
+		div_.style.gridTemplateColumns = "repeat(12,1fr)";
+		div_.style.padding = "10px 0px 10px 0px";
+		p.style.padding = "5px";
+	    p.innerHTML = response["ai"];
+	    // p.class = "divchat_div_ai";
+		p.style.backgroundColor = "white";
+		p.style.borderRight = "5px solid red";
+		p.style.borderLeft = p.style.borderTop = p.style.borderBottom = '1px solid lightgrey';
+	    p.style.gridColumn = "8/ span 5";
+	    // p.align = 'right'
+	    div_.appendChild(p);
+	    div.appendChild(div_);
+	    if (response["action"] == "make account"){
+	    	var form = document.createElement("form");
+	    	var p = document.createElement('p');
+	    	var field = document.createElement("input");
+	    	field.required=true;
+	    	p.appendChild(field)
+	    	form.appendChild(p);
+	    	var p1 = document.createElement('p');
+	    	var field1 = document.createElement("input");
+	    	field1.required=true;
+	    	p1.appendChild(field1)
+	    	form.appendChild(p1);
+	    	var p2 = document.createElement('p');
+	    	var field2 = document.createElement("input");
+	    	field2.required=true;
+	    	p2.appendChild(field2);
+	    	form.appendChild(p2);
+	    	form.style.backgroundColor = "grey";
+	    	form.action = "#"
+	    	var submit = document.createElement("input");
+	    	submit.type = 'submit';
+	    	form.appendChild(submit);
+	    	div.appendChild(form);
+	    }
+	});
+	}
+}
+</script>
+</body>
+</html>
